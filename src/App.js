@@ -1,23 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import List from './Components/list';
+import Selected from './Components/selected';
+import React,{useState} from 'react'
 
 function App() {
+  const[list,updateList]=useState([])
+  const onClicking=(ele)=>{
+    updateList([...list,ele])
+    document.getElementById(ele).disabled=true;
+  }
+  const onRemove=(ele)=>{
+    updateList(list.filter(e=>{
+      return e!==ele
+    }))
+    document.getElementById(ele).disabled=false;
+  }
+  const onRemoveAll=()=>{
+    list.filter(e=>{
+      return document.getElementById(e).disabled=false;
+    })
+    updateList([])
+    
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='container'>
+
+      <Selected list={list} onRemove={onRemove} onRemoveAll={onRemoveAll}/>
+     
+      <List onClicking={onClicking} />
+       
+    </div>
     </div>
   );
 }
